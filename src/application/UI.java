@@ -33,7 +33,23 @@ public class UI {
 			System.out.print(ANSI_CYAN_BACKGROUND);
 			System.out.print(ANSI_BLUE+(8-i)+" ");
 			for(int j=0; j < pieces.length; j++) {
-				printPiece(pieces[i][j]);
+				printPiece(pieces[i][j], false);
+			}
+			System.out.println();
+		}
+		
+		System.out.print("  a  b  c  d  e  f  g  h");
+		System.out.println();
+	}
+	
+	public static void printBoard(ChessPiece[][] pieces,boolean[][] possibleMoves){
+		
+		for(int i=0; i < pieces.length; i++) {
+			System.out.print(ANSI_CYAN_BACKGROUND);
+			System.out.print(ANSI_BLUE+(8-i)+" ");
+			for(int j=0; j < pieces.length; j++) {
+//				System.out.println("row:"+i+" column:"+j+": "+possibleMoves[i][j]);
+				printPiece(pieces[i][j], possibleMoves[i][j]);
 			}
 			System.out.println();
 		}
@@ -42,20 +58,43 @@ public class UI {
 		System.out.println();
 	}
 
-	private static void printPiece(ChessPiece piece){
+	private static void printPiece(ChessPiece piece, boolean background){
 		
+		if(background) {
+			System.out.print(ANSI_YELLOW_BACKGROUND);
+		}
 		
 		if (piece == null) {
-            System.out.print(ANSI_BLUE + "-");
+            System.out.print(ANSI_BLUE+"-"+ANSI_CYAN_BACKGROUND);
         }
         else {
             if (piece.getColor() == Color.WHITE) {
-                System.out.print(ANSI_WHITE + piece);
+                System.out.print(ANSI_WHITE + piece+ ANSI_CYAN_BACKGROUND);
             }
             else {
-                System.out.print(ANSI_BLACK + piece);
+                System.out.print(ANSI_BLACK + piece + ANSI_CYAN_BACKGROUND);
             }
         }
         System.out.print("  ");
 	}
+	
+    public static void clearConsole(){
+        try{
+            String operatingSystem = System.getProperty("os.name"); //Check the current operating system
+              
+            if(operatingSystem.contains("Windows")){        
+                ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "cls");
+                Process startProcess = pb.inheritIO().start();
+                startProcess.waitFor();
+            } else {
+                ProcessBuilder pb = new ProcessBuilder("clear");
+                Process startProcess = pb.inheritIO().start();
+
+                startProcess.waitFor();
+            } 
+        }catch(Exception e){
+            System.out.println(e);
+        }
+    }
+	
 }
