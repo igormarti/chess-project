@@ -24,7 +24,7 @@ public class Program {
 			try {
 			
 				UI.clearConsole();
-				UI.printBoard(chessMatch.getPieces());
+				UI.printMatch(chessMatch);
 				
 				System.out.println();
 				System.out.print("Source: ");
