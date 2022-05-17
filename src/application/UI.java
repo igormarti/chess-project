@@ -1,5 +1,9 @@
 package application;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.Color;
@@ -27,11 +31,16 @@ public class UI {
 	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 	
-	public static void printMatch(ChessMatch chessMatch) {
+	public static void printMatch(ChessMatch chessMatch, List<ChessPiece> piecesCaptured) {
 		printBoard(chessMatch.getPieces());
+		System.out.println();
+		printCapturedPieces(piecesCaptured);
 		System.out.println();
 		System.out.println("Turn: "+ chessMatch.getTurn());
 		System.out.println("Waiting player: "+ chessMatch.getCurrentPlayer());
+		if(chessMatch.isCheck()) {
+			System.out.println("CHECK!");
+		}
 	}
 
 	public static void printBoard(ChessPiece[][] pieces){
@@ -102,6 +111,18 @@ public class UI {
         }catch(Exception e){
             System.out.println(e);
         }
+    }
+    
+    private static void printCapturedPieces(List<ChessPiece> pieces) {
+    	List<ChessPiece> piecesWhite = pieces.stream().filter(p -> p.getColor() == Color.WHITE).collect(Collectors.toList());
+    	List<ChessPiece> piecesBlack = pieces.stream().filter(p -> p.getColor() == Color.BLACK).collect(Collectors.toList());
+    	System.out.println("Captured pieces:");
+    	System.out.print(ANSI_WHITE);
+    	System.out.print("White: ");
+    	System.out.print(Arrays.toString(piecesWhite.toArray())+" ");
+    	System.out.print(ANSI_BLACK);
+    	System.out.print("Black: ");
+    	System.out.print(Arrays.toString(piecesBlack.toArray())+" ");
     }
 	
 }
