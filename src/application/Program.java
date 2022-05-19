@@ -21,7 +21,7 @@ public class Program {
 		System.out.print(UI.ANSI_CYAN_BACKGROUND);
 		UI.clearConsole();
 		
-		while(true) {
+		while(!chessMatch.isCheckMate()) {
 			
 			try {
 			
@@ -46,6 +46,17 @@ public class Program {
 				if(capturedPiece != null) {
 					piecesCaptured.add(capturedPiece);
 				}
+				
+				if(chessMatch.getPromoted() != null) {
+					System.out.print("Enter piece for Promotion B->Bishop, N->Knight, R->Rook, Q->Queen (B/N/R/Q):");
+					String type = sc.nextLine().toUpperCase();
+					while(!type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q")) {
+						System.out.print("Value invalid, please enter piece for Promotion B->Bishop, N->Knight, R->Rook, Q->Queen (B/N/R/Q):");
+						type = sc.nextLine().toUpperCase();
+					}
+					
+					chessMatch.replacePromotedPiece(type);
+				}
 			
 			} catch (ChessException e) {
 				System.out.print(e.getMessage());
@@ -55,6 +66,9 @@ public class Program {
 				sc.nextLine();
 			}
 		}
+		
+		UI.clearConsole();
+		UI.printMatch(chessMatch, piecesCaptured);
 		
 	}
 
